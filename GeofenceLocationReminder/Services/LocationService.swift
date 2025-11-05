@@ -95,5 +95,13 @@ extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager failed: \(error.localizedDescription)")
     }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        print("Exit region: \(region.identifier)")
+        NotificationService.shared.sendLocalNotification(
+            title: "You're exit the region \(region.identifier)",
+            body: "Your geofence reminder just triggered!"
+        )
+    }
 }
 

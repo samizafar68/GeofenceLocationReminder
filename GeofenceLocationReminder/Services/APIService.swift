@@ -18,7 +18,7 @@ final class APIService {
         latitude: Double,
         longitude: Double,
         radius: Int = 2000,
-        amenity: String = "",
+        amenity: String = "resturaunt",
         completion: @escaping (Result<[POI], APIError>) -> Void
     ) {
         let query = """
@@ -50,15 +50,4 @@ final class APIService {
     }
 }
 
-// MARK: - Overpass response models
- nonisolated struct OverpassResponse: Codable {
-    let elements: [OverpassElement]
-}
-
-nonisolated struct OverpassElement: Codable {
-    let id: Int
-    let lat: Double
-    let lon: Double
-    let tags: [String: String]?
-}
 
