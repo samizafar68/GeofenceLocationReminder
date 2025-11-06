@@ -2,7 +2,6 @@ import SwiftUI
 import CoreLocation
 
 struct CreateReminderSheet: View {
-    // MARK: - Properties
     @EnvironmentObject var mapVM: MapViewModel
     @EnvironmentObject var remindersVM: RemindersViewModel
     @State private var radius: Double = 200
@@ -36,15 +35,26 @@ struct CreateReminderSheet: View {
                 },
                 trailing: Button("Save") {
                     guard let poi = mapVM.selectedPOI else { return }
-                    remindersVM.addReminder(
+                    let saved = remindersVM.addReminder(
                         name: poi.name,
                         coordinate: poi.coordinate,
                         radius: radius,
                         note: note
                     )
-                    mapVM.showingCreateSheet = false
+                    if saved {
+                        mapVM.showingCreateSheet = false
+                    }
                 }
             )
+            .alert(isPresented: $remindersVM.showDuplicateAlert) {
+                Alert(
+                    title: Text("Reminder Already Exists!"),
+                    message: Text(remindersVM.alertMessage),
+                    dismissButton: .default(Text("OK")) {
+                        mapVM.showingCreateSheet = false
+                    }
+                )
+            }
         }
     }
 }
