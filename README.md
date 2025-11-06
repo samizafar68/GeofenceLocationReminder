@@ -33,10 +33,10 @@ When you enter or leave a defined area (geofence), the app notifies you instantl
 
 The app follows the **MVVM (Model–View–ViewModel)** pattern:
 
-- **Model:** `Reminder`, `POI`
+- **Model:** `Reminder`, `POI`,`OverpassResponse`
 - **ViewModel:** `MapViewModel`, `RemindersViewModel`, `LocationsViewModel`
-- **View:** `ContentView`, `CreateReminderSheet`, `MapViewRepresentable`, `RadiusSelector`
-- **Services:** `LocationService`, `RealmService`, `NotificationService`
+- **View:** `ContentView(Main View)`, `CreateReminderSheet`, `MapViewRepresentable`, `RadiusSelector`
+- **Services:** `LocationService`, `RealmService`, `NotificationService`,`APIService`
 
 ---
 
