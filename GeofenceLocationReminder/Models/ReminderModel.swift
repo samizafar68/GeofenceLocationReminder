@@ -11,7 +11,7 @@ class Reminder: Object, Identifiable {
     @objc dynamic var note: String = ""
     @objc dynamic var createdAt: Date = Date()
 
-    override static func primaryKey() -> String? {
+    nonisolated override static func primaryKey() -> String? {
         return "id"
     }
     

@@ -1,11 +1,11 @@
 import Foundation
 
 // MARK: - Overpass response models
-struct OverpassResponse: Codable {
+nonisolated struct OverpassResponse: Codable {
     let elements: [OverpassElement]
 }
 
-struct OverpassElement: Codable {
+nonisolated struct OverpassElement: Codable {
     let id: Int
     let lat: Double
     let lon: Double
