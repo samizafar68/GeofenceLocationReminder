@@ -32,8 +32,6 @@ class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         center.add(request) { error in
             if let error = error {
                 print("Notification scheduling error: \(error.localizedDescription)")
-            } else {
-                print("Notification scheduled: \(title)")
             }
         }
     }

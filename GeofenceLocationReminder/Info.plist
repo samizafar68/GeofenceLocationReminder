@@ -2,17 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to show nearby places and allow geofence reminders.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To trigger reminders while the app is in background we need Always location permission.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict/>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
 	</array>
 </dict>
 </plist>

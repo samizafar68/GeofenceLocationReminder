@@ -7,6 +7,7 @@ class MapViewModel: ObservableObject {
     // MARK: - Properties
     @Published var selectedPOI: POI?
     @Published var showingCreateSheet: Bool = false
+    @Published var centerToUserLocation: Bool = false
 
     func annotation(for poi: POI) -> MKPointAnnotation {
         let annotation = MKPointAnnotation()
