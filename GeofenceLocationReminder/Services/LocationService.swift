@@ -6,6 +6,7 @@ import UIKit
 class LocationService: NSObject, ObservableObject {
     // MARK: - Properties
     static let shared = LocationService()
+    private let reminder = RealmService.shared.getAllReminders()
     private let manager = CLLocationManager()
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var lastKnownLocation: CLLocationCoordinate2D?
@@ -46,7 +47,6 @@ class LocationService: NSObject, ObservableObject {
         region.notifyOnExit = true
         if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             manager.startMonitoring(for: region)
-            print("Started monitoring region: \(reminder.name)")
         } else {
             print("Region monitoring not available.")
         }
@@ -56,7 +56,6 @@ class LocationService: NSObject, ObservableObject {
         let matchingRegions = manager.monitoredRegions.filter { $0.identifier == reminder.id }
         for region in matchingRegions {
             manager.stopMonitoring(for: region)
-            print("Stopped monitoring region: \(reminder.name)")
         }
     }
 }
@@ -77,16 +76,17 @@ extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         lastKnownLocation = location.coordinate
-        print("Updated location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
     }
 
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("Entered region: \(region.identifier)")
-        NotificationService.shared.sendLocalNotification(
-            title: "You're near \(region.identifier)",
-            body: "Your geofence reminder just triggered!"
-        )
+        if let matchedReminder = reminder.first(where: { $0.id == region.identifier }) {
+            NotificationService.shared.sendLocalNotification(
+                title: "Geofence Reminder.!",
+                body: "You're near \(matchedReminder.name)"
+            )
+        }
     }
+
 
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
         print("Monitoring failed for region \(region?.identifier ?? "unknown"): \(error.localizedDescription)")
@@ -97,11 +97,13 @@ extension LocationService: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("Exit region: \(region.identifier)")
-        NotificationService.shared.sendLocalNotification(
-            title: "You're exit the region \(region.identifier)",
-            body: "Your geofence reminder just triggered!"
-        )
+        if let matchedReminder = reminder.first(where: { $0.id == region.identifier }) {
+            NotificationService.shared.sendLocalNotification(
+                title: "Geofence Reminder.!",
+                body: "You exited \(matchedReminder.name)"
+            )
+        }
     }
+
 }
 
